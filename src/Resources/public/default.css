@@ -1,0 +1,69 @@
+/* Ereignis-Container */
+.mod_chronik .item {
+	margin-bottom            : 25px;
+}
+
+/* Ereignis: Zeitraum */
+.mod_chronik .item .timerange {
+	background               : url(images/calendar.png) no-repeat left center;
+	font-weight              : bold;
+	font-size                : 16px;
+	padding-left             : 30px;
+	color                    : #818181;
+}
+
+/* Ereignis: Titel */
+.mod_chronik .item .title {
+	font-weight              : bold;
+	font-size                : 20px;
+}
+
+/* Ereignis: Teaser */
+.mod_chronik .item .teaser {
+	border                   : 1px solid #E0E0E0;
+	border-radius            : 5px;
+	background-color         : #F0F0F0;
+	padding                  : 5px;
+	margin-top               : 5px;
+}
+
+/* Ereignis: Vereine */
+.mod_chronik .item .clubs {
+	font-size                : 11px;
+	color                    : #AAAAAA;
+}
+
+/* Ereignis: Quelle */
+.mod_chronik .item .source {
+	font-style               : italic;
+	font-size                : 12px;
+	text-align               : right;
+	color                    : #AAAAAA;
+	margin-top               : 5px;
+}
+
+/* Chronik: Menü */
+.mod_chronik .menu {
+	height                   : 125px;
+}
+
+.mod_chronik .menu li {
+	float                    : left;
+	margin-right             : 7px;
+	margin-bottom            : 11px;
+}
+
+.mod_chronik .menu li a, .mod_chronik .menu li span {
+	border                   : 1px solid #787878;
+	border-radius            : 3px;
+	background-color         : #DFDFDF;
+	padding                  : 2px;
+}
+
+.mod_chronik .menu li span {
+	background-color         : #C4FFFF;
+}
+
+.mod_chronik .menu li a:hover {
+	background-color         : #FFFF00;
+}

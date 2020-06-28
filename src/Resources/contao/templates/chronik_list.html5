@@ -1,0 +1,38 @@
+<?php
+	$GLOBALS['TL_CSS']['chronik'] = 'bundles/contaochronik/default.css';
+?> 
+
+<div class="mod_chronik <?= $this->class ?> block"<?= $this->cssID ?><?php if ($this->style): ?> style="<?= $this->style ?>"<?php endif; ?>>
+	
+	<div class="menu">
+		<ul>
+		<?php foreach($GLOBALS['CHRONIKLINKS'] as $item): ?>
+			<?php if($this->active == $item): ?>
+				<li><span><?= $item ?></span></li>
+			<?php else: ?>
+				<li><a href="<?= ALIAS_CHRONIK ?>/<?= $item ?>.html"><?= $item ?></a></li>
+			<?php endif; ?>
+		<?php endforeach; ?>
+		</ul>
+	</div>
+	
+	<div class="clear"></div>
+	
+	<?php if ($this->headline): ?>
+		<<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+	<?php endif; ?> 
+
+	<?php if($this->data): ?>
+		<?php foreach($this->data as $array): ?>
+			<div class="item">
+				<div class="timerange"><?= $array['zeitraum'] ?></div>
+				<?php if($array['titel']): ?><div class="title"><?= $array['titel'] ?></div><?php endif; ?>
+				<?php if($array['text']): ?><div class="teaser"><?= $array['text'] ?></div><?php endif; ?>
+				<?php if($array['quelle']): ?><div class="source"><?= $array['quelle'] ?></div><?php endif; ?>
+				<?php if($array['vereine']): ?><div class="clubs">Vereine: <?= $array['vereine'] ?></div><?php endif; ?>
+				<?php if($array['spieler']): ?><div class="clubs">Spieler: <?= $array['spieler'] ?></div><?php endif; ?>
+			</div>
+		<?php endforeach; ?>
+	<?php endif; ?>
+
+</div> 
