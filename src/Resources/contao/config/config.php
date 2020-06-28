@@ -43,7 +43,7 @@ $GLOBALS['CHRONIKLINKS'] = array
 	'2006-2010',
 );
 
-$GLOBALS['BE_MOD']['dsb']['chronik'] = array
+$GLOBALS['BE_MOD']['content']['chronik'] = array
 (
 	'tables'         => array('tl_chronik'),
 	'icon'           => 'bundles/contaochronik/images/icon.png',
