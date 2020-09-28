@@ -292,10 +292,10 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'search'                  => true,
 			'inputType'               => 'text',
 			'eval'                    => array('rgxp'=>'url', 'decodeEntities'=>true, 'maxlength'=>255, 'tl_class'=>'w50 wizard'),
-			'wizard' => array
-			(
-				array('Schachbulle\ContaoVereinsregisterBundle\Classes\Vereinsregister', 'pagePicker')
-			),
+			//'wizard' => array
+			//(
+			//	array('Schachbulle\ContaoVereinsregisterBundle\Classes\Vereinsregister', 'pagePicker')
+			//),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'fullsize' => array
@@ -649,7 +649,7 @@ class tl_chronik extends Backend
 
 		// Update the database
 		$this->Database->prepare("UPDATE tl_chronik SET tstamp=". time() .", published='" . ($blnVisible ? 1 : '') . "' WHERE id=?")
-					   ->execute($intId);
+		               ->execute($intId);
 
 		$objVersions->create();
 		$this->log('A new version of record "tl_chronik.id='.$intId.'" has been created'.$this->getParentEntries('tl_chronik', $intId), __METHOD__, TL_GENERAL);
@@ -672,7 +672,7 @@ class tl_chronik extends Backend
 			if($objVereinsregister->timerange || $objVereinsregister->foundingDate || $objVereinsregister->resolutionDate)
 			{
 				$name .= ' [';
-				$name .= $objVereinsregister->timerange ? $objVereinsregister->timerange : (($objVereinsregister->foundingDate || $objVereinsregister->resolutionDate) ? ' | '.\Samson\Helper::getDate($objVereinsregister->foundingDate).' - '.\Samson\Helper::getDate($objVereinsregister->resolutionDate) : ''); 
+				$name .= $objVereinsregister->timerange ? $objVereinsregister->timerange : (($objVereinsregister->foundingDate || $objVereinsregister->resolutionDate) ? ' | '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($objVereinsregister->foundingDate).' - '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($objVereinsregister->resolutionDate) : ''); 
 				$name .= ']';
 			}
 			$array[$objVereinsregister->id] = $name;

@@ -50,7 +50,7 @@ class Chronik extends \Module
 			\Input::setGet('player', \Input::get('player')); // ID des Spielers
 			\Input::setGet('year', \Input::get('year')); // Jahr der Chronik
 		}
-
+				
 		return parent::generate(); // Weitermachen mit dem Modul
 	}
 
@@ -62,18 +62,14 @@ class Chronik extends \Module
 		$this->import('Database');
 
 		// URL-Parameter modifizieren
-		$club_id = \Input::get('club');
-		$player_id = \Input::get('player');
+		$club_id = \Input::get('club'); 
+		$player_id = \Input::get('player'); 
 		$year = \Input::get('year');
-
 		// Weiterleiten zur 1. Seite der Chronik, wenn keine Parameter gesetzt sind
-		// PATCH: Funktioniert in Contao 4 nicht richtig - gesamtes Bundle umbauen
-		//if(!$year && !$club_id && !$player_id) header('Location:/'.ALIAS_CHRONIK.'/'.$GLOBALS['CHRONIKLINKS'][0].'.html');
-
+		if(!$year && !$club_id && !$player_id) header('Location:/'.ALIAS_CHRONIK.'/'.$GLOBALS['CHRONIKLINKS'][0].'.html');
 		// Zeitraum prüfen, wenn Chronikjahr angegeben, ggfs. korrigieren und weiterleiten
-		// PATCH: Funktioniert in Contao 4 nicht richtig - gesamtes Bundle umbauen
-		//if($year && !in_array($year, $GLOBALS['CHRONIKLINKS'])) header('Location:/'.ALIAS_CHRONIK.'/'.$GLOBALS['CHRONIKLINKS'][0].'.html');
-
+		if($year && !in_array($year, $GLOBALS['CHRONIKLINKS'])) header('Location:/'.ALIAS_CHRONIK.'/'.$GLOBALS['CHRONIKLINKS'][0].'.html');
+		
 		// ====================================================================================================
 		// Parameter club_id gesetzt: Vereinschronik ausgeben
 		// ====================================================================================================
@@ -93,7 +89,7 @@ class Chronik extends \Module
 		{
 			// Zeitraum ermitteln
 			$timerange = explode('-', $year);
-
+			
 			$objChronik = $this->Database->prepare('SELECT * FROM tl_chronik WHERE published = ? AND from_date >= ? AND from_date <= ? ORDER BY from_date ASC, to_date ASC')
 			                             ->execute(1, $timerange[0].'0000', $timerange[1].'0000');
 
@@ -101,7 +97,7 @@ class Chronik extends \Module
 			if($objChronik->numRows > 1)
 			{
 				// Datensätze anzeigen
-				while($objChronik->next())
+				while($objChronik->next()) 
 				{
 					$daten[] = array
 					(
