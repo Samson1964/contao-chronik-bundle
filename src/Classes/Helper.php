@@ -6,12 +6,23 @@ class Helper
 {
 
 	var $Fragmente;
+	var $Chronikseite;
 
 	/**
 	 * Klasse initialisieren
 	 */
 	public function __construct()
 	{
+	 	// Ermittlung des Alias der Seite mit dem Chronik-Modul 
+		$page = \PageModel::findByPK($GLOBALS['TL_CONFIG']['chronik_seite']); 
+		$this->Chronikseite = $page->alias;
+	}
+
+	public function getChronikseite()
+	{
+	 	// Ermittlung des Alias der Seite mit dem Chronik-Modul 
+		$page = \PageModel::findByPK($GLOBALS['TL_CONFIG']['chronik_seite']); 
+		return $page->alias;
 	}
 
 	/**
@@ -27,46 +38,47 @@ class Helper
 		//print_r($_SERVER['REQUEST_URI']);
 		$args = count($arrFragments); // Anzahl Argumente
 
+		if($args > 1)
+		{
+			// Es wurde mehr als nur der Alias übergeben
+			if($arrFragments[0] == $this->Chronikseite)
+			{
+				// Alias der Chronikseite gefunden!
+				if($arrFragments[1] == 'auto_item')
+				{
+					$var = 'year';
+					$val = $arrFragments[2];
+					$arrFragments[2] = $var;
+					$arrFragments[3] = $val;
+				}
+				//$arrFragments[1] = 'year';
+			}
+			//elseif($arrFragments[2] == $this->Chronikseite && $arrFragments[1] == 'auto_item')
+			//{
+			//	// Contao 4 app_dev-Modus
+			//	$arrFragments[1] = $this->Chronikseite;
+			//	$arrFragments[2] = 'year';
+			//}
+		}
+
 		//if($arrFragments[1] == 'app_dev')
 		//{
 		//	// Array('app_dev', 'chronik', '1750-1800')
 		//	// app_dev-Modus aktiv (nur in Contao 4) - app_dev rauswerfen, da die Parameter durcheinanderkommen!
-		//	if($arrFragments[1] == ALIAS_CHRONIK)
+		//	if($arrFragments[1] == $this->Chronikseite)
 		//	{
 		//		// Parameter korrigieren
 		//		$arrFragments[1] = 'year'; // Alias durch Parameter year ersetzen
-		//		$arrFragments[0] = ALIAS_CHRONIK; // app_dev mit Alias überschreiben
+		//		$arrFragments[0] = $this->Chronikseite; // app_dev mit Alias überschreiben
 		//	}
 		//}
-		//if($args > 1 && $arrFragments[0] == ALIAS_CHRONIK)
+		//if($args > 1 && $arrFragments[0] == $this->Chronikseite)
 		//{
 		//	// Array('chronik', 'auto_item', '1750-1800')
 		//	// Parameter korrigieren
 		//	$arrFragments[1] = 'year'; // auto_item durch Parameter year ersetzen
 		//}
 		
-		//if($args == 1)
-		//{
-		//	if($arrFragments[0] == ALIAS_CHRONIK)
-		//	{
-		//		// auto_item wird nicht mehr mitgeliefert im app_prod-Modus
-		//		$arrFragments[1] = 'year';
-		//	}
-		//}
-		//elseif($args > 1)
-		//{
-		//	if($arrFragments[0] == ALIAS_CHRONIK && $arrFragments[1] == 'auto_item')
-		//	{
-		//		// In [0] steht das Seitenalias, ab [1] die Parameter
-		//		$arrFragments[1] = 'year';
-		//	}
-		//	elseif($arrFragments[2] == ALIAS_CHRONIK && $arrFragments[1] == 'auto_item')
-		//	{
-		//		// Contao 4 app_dev-Modus
-		//		$arrFragments[1] = ALIAS_CHRONIK;
-		//		$arrFragments[2] = 'year';
-		//	}
-		//}
 		
 		$log .= "URL-Fragmente danach:\n";
 		$log .= print_r($arrFragments, true);

@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You cannot access this file directly!');
+<?php
 
 /**
  * Contao Open Source CMS
@@ -55,9 +55,8 @@ $GLOBALS['BE_MOD']['content']['chronik'] = array
  */
 $GLOBALS['FE_MOD']['chronik'] = array
 (
-	'chronik'        => 'Schachbulle\ContaoChronikBundle\Classes\Chronik'
+	'chronik'        => 'Schachbulle\ContaoChronikBundle\Modules\Chronik'
 );
 
 // http://de.contaowiki.org/Strukturierte_URLs
 $GLOBALS['TL_HOOKS']['getPageIdFromUrl'][] = array('Schachbulle\ContaoChronikBundle\Classes\Helper', 'getParamsFromUrl');
-

@@ -7,7 +7,11 @@
  */
 
 /**
- * Backend-Modul Übersetzungen
+ * Backend-Modul
  */
-$GLOBALS["TL_LANG"]["MOD"]["chronik"][0] = "Chronik";
-$GLOBALS["TL_LANG"]["MOD"]["chronik"][1] = "Chronik";
+$GLOBALS['TL_LANG']['MOD']['chronik'] = array('Chronik', 'Ereignisse in chronologischer Reihenfolge verwalten');
+
+/**
+ * Frontend-Module
+ */
+$GLOBALS['TL_LANG']['FMD']['chronik'] = array('Chronik', 'Ereignisse in chronologischer Reihenfolge anzeigen');

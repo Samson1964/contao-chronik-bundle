@@ -10,11 +10,12 @@
         }
     ],
     "require": {
-        "php": "^5.6 || ^7.0",
-        "contao/core-bundle": "^4.7",
-        "schachbulle/contao-spielerregister-bundle": ">=0",
-        "schachbulle/contao-vereinsregister-bundle": ">=0",
-        "schachbulle/contao-helper-bundle": ">=0"
+        "php": "^5.6 || ^7.0 || ^8.0",
+        "codefog/contao-haste": "*",
+        "contao/core-bundle": "^4",
+        "schachbulle/contao-spielerregister-bundle": "*",
+        "schachbulle/contao-vereinsregister-bundle": "*",
+        "schachbulle/contao-helper-bundle": "*"
     },
     "conflict": {
         "contao/core": "*",

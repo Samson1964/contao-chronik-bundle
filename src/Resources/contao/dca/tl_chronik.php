@@ -88,9 +88,16 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'toggle' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_chronik']['toggle'],
-				'icon'                => 'visible.gif',
-				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-				'button_callback'     => array('tl_chronik', 'toggleIcon')
+				'attributes'           => 'onclick="Backend.getScrollOffset()"',
+				'haste_ajax_operation' => array
+				(
+					'field'            => 'published',
+					'options'          => array
+					(
+						array('value' => '', 'icon' => 'invisible.svg'),
+						array('value' => '1', 'icon' => 'visible.svg'),
+					),
+				),
 			),
 			'show' => array
 			(
@@ -116,14 +123,15 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'__selector__'                => array('addImage', 'clublist_incomplete', 'playerlist_incomplete'), 
-		'default'                     => '{chronik_legend},region,from_date,to_date,title,text;{source_legend:hide},source,url;{image_legend},addImage;{connect_legend:hide},clublist_incomplete,clublist,playerlist_incomplete,playerlist;{published_legend:hide},published'
+		'__selector__'                => array('addImage', 'clublist_incomplete', 'playerlist_incomplete', 'overwriteMeta'), 
+		'default'                     => '{chronik_legend},region,from_date,to_date,title,text;{source_legend:hide},source,url;{image_legend},addImage;{connect_legend:hide},clublist_incomplete,clublist,playerlist_incomplete,playerlist;{publish_legend:hide},published'
 	),
 
 	// Subpalettes
 	'subpalettes' => array
 	(
-		'addImage'                    => 'singleSRC,alt,title,size,imagemargin,imageUrl,fullsize,caption,floating',
+		'addImage'                    => 'singleSRC,size,floating,fullsize,overwriteMeta',
+		'overwriteMeta'               => 'alt,imageTitle,imageUrl,caption',
 		'clublist_incomplete'         => 'clublist_failed',
 		'playerlist_incomplete'       => 'playerlist_failed'
 	), 
@@ -239,14 +247,51 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 		'singleSRC' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['singleSRC'],
-			'exclude'                 => true,
 			'inputType'               => 'fileTree',
-			'eval'                    => array('filesOnly'=>true, 'fieldType'=>'radio', 'mandatory'=>true, 'tl_class'=>'clr'),
-			'sql'                     => "binary(16) NULL",
-			'save_callback' => array
+			'eval'                    => array
 			(
-				array('tl_chronik', 'storeFileMetaInformation')
-			)
+				'fieldType'           => 'radio', 
+				'filesOnly'           => true, 
+				'extensions'          => '%contao.image.valid_extensions%', 
+				'mandatory'           => true,
+				'tl_class'            => 'clr'
+			),
+			'sql'                     => "binary(16) NULL"
+		),
+		'size' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['MSC']['imgSize'],
+			'inputType'               => 'imageSize',
+			'reference'               => &$GLOBALS['TL_LANG']['MSC'],
+			'eval'                    => array('rgxp'=>'natural', 'includeBlankOption'=>true, 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50 clr'),
+			'options_callback' => static function ()
+			{
+				return Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(Contao\BackendUser::getInstance());
+			},
+			'sql'                     => "varchar(64) NOT NULL default ''"
+		),
+		'floating' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['floating'],
+			'inputType'               => 'radioTable',
+			'options'                 => array('above', 'left', 'right', 'below'),
+			'eval'                    => array('cols'=>4, 'tl_class'=>'w50'),
+			'reference'               => &$GLOBALS['TL_LANG']['MSC'],
+			'sql'                     => "varchar(12) NOT NULL default 'above'"
+		),
+		'fullsize' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['fullsize'],
+			'inputType'               => 'checkbox',
+			'eval'                    => array('tl_class'=>'w50', 'type' => 'boolean'),
+			'sql'                     => "char(1) NOT NULL default ''"
+		),
+		'overwriteMeta' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['overwriteMeta'],
+			'inputType'               => 'checkbox',
+			'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'w50 clr', 'type' => 'boolean'),
+			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'alt' => array
 		(
@@ -257,33 +302,14 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
-		'imgtitle' => array
+		'imageTitle' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['imgtitle'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['imageTitle'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
 			'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(255) NOT NULL default ''"
-		),
-		'size' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['size'],
-			'exclude'                 => true,
-			'inputType'               => 'imageSize',
-			'options'                 => $GLOBALS['TL_CROP'],
-			'reference'               => &$GLOBALS['TL_LANG']['MSC'],
-			'eval'                    => array('rgxp'=>'digit', 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50'),
-			'sql'                     => "varchar(64) NOT NULL default ''"
-		),
-		'imagemargin' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['imagemargin'],
-			'exclude'                 => true,
-			'inputType'               => 'trbl',
-			'options'                 => array('px', '%', 'em', 'rem', 'ex', 'pt', 'pc', 'in', 'cm', 'mm'),
-			'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
-			'sql'                     => "varchar(128) NOT NULL default ''"
 		),
 		'imageUrl' => array
 		(
@@ -291,20 +317,8 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
-			'eval'                    => array('rgxp'=>'url', 'decodeEntities'=>true, 'maxlength'=>255, 'tl_class'=>'w50 wizard'),
-			//'wizard' => array
-			//(
-			//	array('Schachbulle\ContaoVereinsregisterBundle\Classes\Vereinsregister', 'pagePicker')
-			//),
+			'eval'                    => array('rgxp'=>'url', 'decodeEntities'=>true, 'maxlength'=>255, 'dcaPicker'=>true, 'addWizardClass'=>false, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(255) NOT NULL default ''"
-		),
-		'fullsize' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['fullsize'],
-			'exclude'                 => true,
-			'inputType'               => 'checkbox',
-			'eval'                    => array('tl_class'=>'w50 m12'),
-			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'caption' => array
 		(
@@ -315,17 +329,6 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'eval'                    => array('maxlength'=>255, 'allowHtml'=>true, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
-		'floating' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['floating'],
-			'default'                 => 'above',
-			'exclude'                 => true,
-			'inputType'               => 'radioTable',
-			'options'                 => array('above', 'left', 'right', 'below'),
-			'eval'                    => array('cols'=>4, 'tl_class'=>'w50'),
-			'reference'               => &$GLOBALS['TL_LANG']['MSC'],
-			'sql'                     => "varchar(32) NOT NULL default ''"
-		), 
 		'source' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['source'],
@@ -393,9 +396,17 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['playerlist'],
 			'exclude'                 => true,
-			'options_callback'        => array('tl_chronik', 'getSpieler'),
+			'options_callback'        => array('Schachbulle\ContaoSpielerregisterBundle\Klassen\Helper', 'getRegister'),
 			'inputType'               => 'select',
-			'eval'                    => array('multiple'=>true, 'chosen'=>true, 'tl_class'=>'w50 clr'),
+			'eval'                    => array
+			(
+				'includeBlankOption'  => true,
+				'mandatory'           => false,
+				'multiple'            => true,
+				'chosen'              => true,
+				'submitOnChange'      => false,
+				'tl_class'            => 'w50 clr'
+			),
 			'sql'                     => "blob NULL", 
 		),
 		'published' => array
@@ -440,88 +451,20 @@ class tl_chronik extends Backend
 
 		// Status der Sichtbarkeit für das CSS feststellen
 		$key = $arrRow['published'] ? 'published' : 'unpublished';
-		$text = $arrRow['from_date'] ? \Schachbulle\ContaoHelperBundle\Classes\Helper::getDateString($arrRow['from_date']) : '';
-		$text .= $arrRow['to_date'] ? ' - '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDateString($arrRow['to_date']) : '';
+		$text = $arrRow['from_date'] ? \Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($arrRow['from_date']) : '';
+		$text .= $arrRow['to_date'] ? ' - '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($arrRow['to_date']) : '';
 		$text .= $arrRow['title'] ? ': '.$arrRow['title'] : '';
 
-		if(version_compare(VERSION, '4', '<')) 
-		{
-			$temp = '<div class="cte_type ' . $key . '"><b>'.$text.'</b></div>';
-			$temp .= '<div class="limit_height' . (!$GLOBALS['TL_CONFIG']['doNotCollapse'] ? ' h64' : '') . ' block">';
-			$temp .= '<div class="tl_gray">';
-			if($arrRow['text']) $temp .= strip_tags($arrRow['text']) . '<br><br>';
-			if($arrRow['source']) $temp .= '[<i>Quelle: ' . $arrRow['source'] . '</i>]';
-			$temp .= '</div></div>' . "\n";
-		} 
-		else 
-		{
-			$temp = '<div class="cte_type ' . $key . '"><strong>' . $text . '</strong></div>';
-			$temp .= '<div class="limit_height' . (!Config::get('doNotCollapse') ? ' h38' : '') . '">';
-			//$temp .= '<div class="tl_gray">';
-			if($arrRow['text']) $temp .= strip_tags($arrRow['text']) . '<br><br>';
-			if($arrRow['source']) $temp .= '[<i>Quelle: ' . $arrRow['source'] . '</i>]';
-			//$temp .= '</div>';
-			$temp .= '</div>';
-			$temp .= "\n";
-		} 
+		$temp = '<div class="cte_type '.$key.'">'.$text.'</div>';
+		$temp .= '<div class="limit_height '.(!Config::get('doNotCollapse') ? 'h40' : ''). '">';
+		if($arrRow['text']) $temp .= strip_tags($arrRow['text']) . '<br><br>';
+		if($arrRow['source']) $temp .= '[<i>Quelle: ' . $arrRow['source'] . '</i>]';
+		$temp .= '</div>';
+		$temp .= '</div>';
 		return $temp;
+
 	} 
 
-	/**
-	 * Pre-fill the "alt" and "caption" fields with the file meta data
-	 * @param mixed
-	 * @param \DataContainer
-	 * @return mixed
-	 */
-	public function storeFileMetaInformation($varValue, DataContainer $dc)
-	{
-		if ($dc->activeRecord->singleSRC == $varValue)
-		{
-			return $varValue;
-		}
-
-		$objFile = \FilesModel::findByUuid($varValue);
-
-		//if ($objFile !== null)
-		//{
-		//	$arrMeta = deserialize($objFile->meta);
-        //
-		//	if (!empty($arrMeta))
-		//	{
-		//		$objPage = $this->Database->prepare("SELECT * FROM tl_page WHERE id=(SELECT pid FROM " . ($dc->activeRecord->ptable ?: 'tl_article') . " WHERE id=?)")
-		//								  ->execute($dc->activeRecord->pid);
-        //
-		//		if ($objPage->numRows)
-		//		{
-		//			$objModel = new PageModel();
-		//			$objModel->setRow($objPage->row());
-		//			$objModel->loadDetails();
-        //
-		//			// Convert the language to a locale (see #5678)
-		//			$strLanguage = str_replace('-', '_', $objModel->rootLanguage);
-        //
-		//			if (isset($arrMeta[$strLanguage]))
-		//			{
-		//				\Input::setPost('alt', $arrMeta[$strLanguage]['title']);
-		//				\Input::setPost('caption', $arrMeta[$strLanguage]['caption']);
-		//			}
-		//		}
-		//	}
-		//}
-
-		return $varValue;
-	}
- 	
-	/**
-	 * Return the "toggle visibility" button
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @return string
-	 */
 	public function clubIcon($row, $href, $label, $title, $icon, $attributes)
 	{
 
@@ -534,16 +477,6 @@ class tl_chronik extends Backend
 		return '<span>'.Image::getHtml($icon, $label).'</span> ';
 	}
 
-	/**
-	 * Return the "toggle visibility" button
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @return string
-	 */
 	public function playerIcon($row, $href, $label, $title, $icon, $attributes)
 	{
 
@@ -555,105 +488,6 @@ class tl_chronik extends Backend
 
 		return '<span>'.Image::getHtml($icon, $label).'</span> ';
 	}
-
-
-	/**
-	 * Return the "toggle visibility" button
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @return string
-	 */
-	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
-	{
-		if (strlen(Input::get('tid')))
-		{
-			$this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1));
-			$this->redirect($this->getReferer());
-		}
-
-		// Check permissions AFTER checking the tid, so hacking attempts are logged
-		if (!$this->User->isAdmin && !$this->User->hasAccess('tl_chronik::published', 'alexf'))
-		{
-			return '';
-		}
-
-		$href .= '&amp;id='.Input::get('id').'&amp;tid='.$row['id'].'&amp;state='.$row['published'];
-
-		if(!$row['published'])
-		{
-			$icon = 'invisible.gif';
-		}
-
-		return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ';
-	}
-
-
-	/**
-	 * Toggle the visibility of an element
-	 * @param integer
-	 * @param boolean
-	 */
-	public function toggleVisibility($intId, $blnVisible)
-	{
-		// Check permissions to edit
-		Input::setGet('id', $intId);
-		Input::setGet('act', 'toggle');
-
-		// The onload_callbacks vary depending on the dynamic parent table (see #4894)
-		if (is_array($GLOBALS['TL_DCA']['tl_chronik']['config']['onload_callback']))
-		{
-			foreach ($GLOBALS['TL_DCA']['tl_chronik']['config']['onload_callback'] as $callback)
-			{
-				if (is_array($callback))
-				{
-					$this->import($callback[0]);
-					$this->$callback[0]->$callback[1]($this);
-				}
-				elseif (is_callable($callback))
-				{
-					$callback($this);
-				}
-			}
-		}
-
-		// Check permissions to publish
-		if (!$this->User->isAdmin && !$this->User->hasAccess('tl_chronik::published', 'alexf'))
-		{
-			$this->log('Not enough permissions to show/hide content element ID "'.$intId.'"', __METHOD__, TL_ERROR);
-			$this->redirect('contao/main.php?act=error');
-		}
-
-		$objVersions = new Versions('tl_chronik', $intId);
-		$objVersions->initialize();
-
-		// Trigger the save_callback
-		if (is_array($GLOBALS['TL_DCA']['tl_chronik']['fields']['published']['save_callback']))
-		{
-			foreach ($GLOBALS['TL_DCA']['tl_chronik']['fields']['published']['save_callback'] as $callback)
-			{
-				if (is_array($callback))
-				{
-					$this->import($callback[0]);
-					$blnVisible = $this->$callback[0]->$callback[1]($blnVisible, $this);
-				}
-				elseif (is_callable($callback))
-				{
-					$blnVisible = $callback($blnVisible, $this);
-				}
-			}
-		}
-
-		// Update the database
-		$this->Database->prepare("UPDATE tl_chronik SET tstamp=". time() .", published='" . ($blnVisible ? 1 : '') . "' WHERE id=?")
-		               ->execute($intId);
-
-		$objVersions->create();
-		$this->log('A new version of record "tl_chronik.id='.$intId.'" has been created'.$this->getParentEntries('tl_chronik', $intId), __METHOD__, TL_GENERAL);
-	} 
 
 	public function groupFormat($group, $sortingMode, $firstOrderBy, $row, $dc)
 	{
@@ -676,26 +510,6 @@ class tl_chronik extends Backend
 				$name .= ']';
 			}
 			$array[$objVereinsregister->id] = $name;
-		}
-		
-		return $array;
-
-	}
-
-	public function getSpieler(DataContainer $dc)
-	{
-		// Spielerregister laden
-		$objSpielerregister = $this->Database->prepare("SELECT * FROM tl_spielerregister")
-		                                     ->execute();
-		$array = array();
-		while($objSpielerregister->next())
-		{
-			$name = $objSpielerregister->firstname1.' '.$objSpielerregister->surname1;
-			if($objSpielerregister->birthday || $objSpielerregister->death) $name .= '[';
-			$name .= $objSpielerregister->birthday ? '* '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($objSpielerregister->birthday) : '* ?';
-			$name .= $objSpielerregister->death ? ($objSpielerregister->deathday ? '; &dagger; '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($objSpielerregister->deathday) : '') : '';
-			if($objSpielerregister->birthday || $objSpielerregister->death) $name .= ']';
-			$array[$objSpielerregister->id] = $name;
 		}
 		
 		return $array;

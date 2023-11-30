@@ -12,7 +12,9 @@
 /**
  * Add palette to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['chronik'] = '{title_legend},name,type;{options_legend},chronik_from,chronik_to;{expert_legend:hide},cssID,align,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'chronik_filter';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['chronik'] = '{title_legend},name,type;{options_legend},chronik_from,chronik_to,chronik_filter;{redirect_legend},jumpTo;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['chronik_filter'] = 'chronik_timerange';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['chronik_from'] = array
 (
@@ -20,21 +22,13 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['chronik_from'] = array
 	'inputType'               => 'text',
 	'eval'                    => array
 	(
-		'maxlength'           => 10,
+		'maxlength'           => 4,
 		'tl_class'            => 'w50 wizard',
 		'rgxp'                => 'alnum',
 		'datepicker'          => true,
 		'mandatory'           => true
 	),
-	'load_callback'           => array
-	(
-		array('\Schachbulle\ContaoHelperBundle\Classes\Helper', 'getDate')
-	),
-	'save_callback' => array
-	(
-		array('\Schachbulle\ContaoHelperBundle\Classes\Helper', 'putDate')
-	),
-	'sql'                     => "int(8) unsigned NOT NULL default '0'"
+	'sql'                     => "int(4) unsigned NOT NULL default '0'"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['chronik_to'] = array
@@ -43,19 +37,34 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['chronik_to'] = array
 	'inputType'               => 'text',
 	'eval'                    => array
 	(
-		'maxlength'           => 10,
+		'maxlength'           => 4,
 		'tl_class'            => 'w50 wizard',
 		'rgxp'                => 'alnum',
 		'datepicker'          => true,
 		'mandatory'           => true
 	),
-	'load_callback'           => array
+	'sql'                     => "int(4) unsigned NOT NULL default '0'"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['chronik_filter'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['chronik_filter'],
+	'inputType'               => 'checkbox',
+	'filter'                  => true,
+	'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr'),
+	'sql'                     => "char(1) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['chronik_timerange'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['chronik_timerange'],
+	'inputType'               => 'text',
+	'default'                 => 10,
+	'eval'                    => array
 	(
-		array('\Schachbulle\ContaoHelperBundle\Classes\Helper', 'getDate')
+		'maxlength'           => 3,
+		'tl_class'            => 'w50',
+		'rgxp'                => 'alnum',
 	),
-	'save_callback' => array
-	(
-		array('\Schachbulle\ContaoHelperBundle\Classes\Helper', 'putDate')
-	),
-	'sql'                     => "int(8) unsigned NOT NULL default '0'"
+	'sql'                     => "int(3) unsigned NOT NULL default '10'"
 );

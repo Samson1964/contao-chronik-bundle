@@ -4,24 +4,24 @@
 
 <div class="mod_chronik <?= $this->class ?> block"<?= $this->cssID ?><?php if ($this->style): ?> style="<?= $this->style ?>"<?php endif; ?>>
 	
-	<div class="menu">
-		<ul>
-		<?php foreach($GLOBALS['CHRONIKLINKS'] as $item): ?>
-			<?php if($this->active == $item): ?>
-				<li><span><?= $item ?></span></li>
-			<?php else: ?>
-				<li><a href="<?= ALIAS_CHRONIK ?>/<?= $item ?>.html"><?= $item ?></a></li>
-			<?php endif; ?>
-		<?php endforeach; ?>
-		</ul>
-	</div>
-	
-	<div class="clear"></div>
-	
+	<?php if($this->yearmenu): ?>
+		<div class="menu">
+			<ul style="list-style-type:none;">
+			<?php foreach($this->yearmenu as $item): ?>
+				<?php if($this->active == $item['name']): ?>
+					<li><span><?= $item['name'] ?></span></li>
+				<?php else: ?>
+					<li><a href="<?= $item['url'] ?>"><?= $item['name'] ?></a></li>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</ul>
+		</div>
+	<?php endif; ?>
+
 	<?php if ($this->headline): ?>
 		<<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
 	<?php endif; ?> 
-
+    
 	<?php if($this->data): ?>
 		<?php foreach($this->data as $array): ?>
 			<div class="item">
