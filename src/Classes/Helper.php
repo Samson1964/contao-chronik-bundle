@@ -13,16 +13,32 @@ class Helper
 	 */
 	public function __construct()
 	{
-	 	// Ermittlung des Alias der Seite mit dem Chronik-Modul 
-		$page = \PageModel::findByPK($GLOBALS['TL_CONFIG']['chronik_seite']); 
-		$this->Chronikseite = $page->alias;
+		// Ermittlung des Alias der Seite mit dem Chronik-Modul 
+		if(isset($GLOBALS['TL_CONFIG']['chronik_seite']))
+		{
+			$page = \PageModel::findByPK($GLOBALS['TL_CONFIG']['chronik_seite']); 
+			$this->Chronikseite = $page->alias;
+		}
+		else
+		{
+			\Message::addError('Die Seite für das Chronik-Modul fehlt in System -> Einstellungen.');
+			return false;
+		}
 	}
 
-	public function getChronikseite()
+	public static function getChronikseite()
 	{
-	 	// Ermittlung des Alias der Seite mit dem Chronik-Modul 
-		$page = \PageModel::findByPK($GLOBALS['TL_CONFIG']['chronik_seite']); 
-		return $page->alias;
+		// Ermittlung des Alias der Seite mit dem Chronik-Modul 
+		if(isset($GLOBALS['TL_CONFIG']['chronik_seite']))
+		{
+			$page = \PageModel::findByPK($GLOBALS['TL_CONFIG']['chronik_seite']); 
+			return $page->alias;
+		}
+		else
+		{
+			\Message::addError('Die Seite für das Chronik-Modul fehlt in System -> Einstellungen.');
+			return false;
+		}
 	}
 
 	/**

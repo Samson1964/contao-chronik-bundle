@@ -13,7 +13,7 @@
  * Add palette to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'chronik_filter';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['chronik'] = '{title_legend},name,type;{options_legend},chronik_from,chronik_to,chronik_filter;{redirect_legend},jumpTo;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['chronik'] = '{title_legend},name,type;{options_legend},chronik_from,chronik_to,chronik_filter;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['chronik_filter'] = 'chronik_timerange';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['chronik_from'] = array

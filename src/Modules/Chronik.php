@@ -160,7 +160,7 @@ class Chronik extends \Module
 		}
 
 		$this->Template->active = $year;
-		$this->Template->data = $daten;
+		$this->Template->data = isset($daten) ? $daten : false;
 		$this->Template->yearmenu = $menu;
 			
 	}

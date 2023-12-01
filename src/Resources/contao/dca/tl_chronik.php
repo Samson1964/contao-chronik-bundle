@@ -47,7 +47,7 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'format'                  => '%s',
 			'label_callback'          => array('tl_chronik', 'listHistory'),
 			'group_callback'          => array('tl_chronik', 'groupFormat')
-		), 
+		),
 		'global_operations' => array
 		(
 			'all' => array
@@ -123,7 +123,7 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'__selector__'                => array('addImage', 'clublist_incomplete', 'playerlist_incomplete', 'overwriteMeta'), 
+		'__selector__'                => array('addImage', 'clublist_incomplete', 'playerlist_incomplete', 'overwriteMeta'),
 		'default'                     => '{chronik_legend},region,from_date,to_date,title,text;{source_legend:hide},source,url;{image_legend},addImage;{connect_legend:hide},clublist_incomplete,clublist,playerlist_incomplete,playerlist;{publish_legend:hide},published'
 	),
 
@@ -134,8 +134,8 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 		'overwriteMeta'               => 'alt,imageTitle,imageUrl,caption',
 		'clublist_incomplete'         => 'clublist_failed',
 		'playerlist_incomplete'       => 'playerlist_failed'
-	), 
-	
+	),
+
 	// Fields
 	'fields' => array
 	(
@@ -155,11 +155,11 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'inputType'               => 'text',
 			'eval'                    => array
 			(
-				'maxlength'           => 255, 
+				'maxlength'           => 255,
 				'tl_class'            => 'w50'
 			),
 			'sql'                     => "varchar(255) NOT NULL default ''"
-		), 
+		),
 		'from_date' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['from_date'],
@@ -216,11 +216,11 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'inputType'               => 'text',
 			'eval'                    => array
 			(
-				'maxlength'           => 255, 
+				'maxlength'           => 255,
 				'tl_class'            => 'long clr'
 			),
 			'sql'                     => "varchar(255) NOT NULL default ''"
-		), 
+		),
 		'text' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['text'],
@@ -229,11 +229,11 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'inputType'               => 'textarea',
 			'eval'                    => array
 			(
-				'rte'                 => 'tinyMCE', 
+				'rte'                 => 'tinyMCE',
 				'tl_class'            => 'clr',
 				'mandatory'           => false
 			),
-			'explanation'             => 'insertTags', 
+			'explanation'             => 'insertTags',
 			'sql'                     => "mediumtext NULL"
 		),
 		'addImage' => array
@@ -250,9 +250,9 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'inputType'               => 'fileTree',
 			'eval'                    => array
 			(
-				'fieldType'           => 'radio', 
-				'filesOnly'           => true, 
-				'extensions'          => '%contao.image.valid_extensions%', 
+				'fieldType'           => 'radio',
+				'filesOnly'           => true,
+				'extensions'          => '%contao.image.valid_extensions%',
 				'mandatory'           => true,
 				'tl_class'            => 'clr'
 			),
@@ -337,7 +337,7 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'maxlength'=>255, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(255) NOT NULL default ''"
-		), 
+		),
 		'url' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['url'],
@@ -346,7 +346,7 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'rgxp'=>'url', 'decodeEntities'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(255) NOT NULL default ''"
-		), 
+		),
 		'clublist_incomplete' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['clublist_incomplete'],
@@ -364,7 +364,7 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'maxlength'=>512, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(512) NOT NULL default ''"
-		), 
+		),
 		'clublist' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['clublist'],
@@ -372,7 +372,7 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'options_callback'        => array('tl_chronik', 'getVereine'),
 			'inputType'               => 'select',
 			'eval'                    => array('multiple'=>true, 'chosen'=>true, 'tl_class'=>'w50 clr'),
-			'sql'                     => "blob NULL", 
+			'sql'                     => "blob NULL",
 		),
 		'playerlist_incomplete' => array
 		(
@@ -391,7 +391,7 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>false, 'maxlength'=>512, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(512) NOT NULL default ''"
-		), 
+		),
 		'playerlist' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_chronik']['playerlist'],
@@ -407,7 +407,7 @@ $GLOBALS['TL_DCA']['tl_chronik'] = array
 				'submitOnChange'      => false,
 				'tl_class'            => 'w50 clr'
 			),
-			'sql'                     => "blob NULL", 
+			'sql'                     => "blob NULL",
 		),
 		'published' => array
 		(
@@ -463,7 +463,7 @@ class tl_chronik extends Backend
 		$temp .= '</div>';
 		return $temp;
 
-	} 
+	}
 
 	public function clubIcon($row, $href, $label, $title, $icon, $attributes)
 	{
@@ -491,8 +491,8 @@ class tl_chronik extends Backend
 
 	public function groupFormat($group, $sortingMode, $firstOrderBy, $row, $dc)
 	{
-		return \Schachbulle\ContaoHelperBundle\Classes\Helper::getDateString($group);
-	}  
+		return \Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($group);
+	}
 
 	public function getVereine(DataContainer $dc)
 	{
@@ -506,12 +506,12 @@ class tl_chronik extends Backend
 			if($objVereinsregister->timerange || $objVereinsregister->foundingDate || $objVereinsregister->resolutionDate)
 			{
 				$name .= ' [';
-				$name .= $objVereinsregister->timerange ? $objVereinsregister->timerange : (($objVereinsregister->foundingDate || $objVereinsregister->resolutionDate) ? ' | '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($objVereinsregister->foundingDate).' - '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($objVereinsregister->resolutionDate) : ''); 
+				$name .= $objVereinsregister->timerange ? $objVereinsregister->timerange : (($objVereinsregister->foundingDate || $objVereinsregister->resolutionDate) ? ' | '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($objVereinsregister->foundingDate).' - '.\Schachbulle\ContaoHelperBundle\Classes\Helper::getDate($objVereinsregister->resolutionDate) : '');
 				$name .= ']';
 			}
 			$array[$objVereinsregister->id] = $name;
 		}
-		
+
 		return $array;
 
 	}

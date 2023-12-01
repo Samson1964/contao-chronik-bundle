@@ -1,5 +1,13 @@
 # Schachchronik Changelog
 
+## Version 1.1.1 (2023-12-01)
+
+* Fix: Warning: Undefined array key "chronik_seite" in Helper:17 -> Ausgabe einer Fehlermeldung, wenn Chronikseite nicht eingestellt ist
+* Delete: tl_module.jumpTo entfernt, da die Chronikseite global festgelegt wird
+* Fix: Anpassungen PHP 8 wegen undefinierter Variablen
+* Delete: ALIAS_CHRONIK und Array mit den vordefinierten Zeiträumen
+* Change: style.css für das Backend verbessert
+
 ## Version 1.1.0 (2023-11-30)
 
 * Add: Übersetzungen im Backend

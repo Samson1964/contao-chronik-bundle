@@ -23,23 +23,3 @@ td.tl_right_nowrap {
 .mark_links a {
 	text-decoration      : underline
 }
-
-.limit_toggler button {
-	line-height          : 24px;
-}
-
-.limit_toggler button span {
-	width                : 20px;
-	height               : 24px;
-	display              : block;
-	font-size            : 0;
-}
-
-.limit_toggler button.unselectable span {
-	background           : url(/system/themes/flexible/images/expand.gif) no-repeat;
-}
-
-/*
-//http://www.schachbund.de/system/themes/flexible/images/collapse.gif
-//http://www.schachbund.de/system/themes/flexible/images/expand.gif
-*/
