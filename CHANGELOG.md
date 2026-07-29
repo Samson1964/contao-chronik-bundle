@@ -1,5 +1,9 @@
 # Schachchronik Changelog
 
+## Version 1.1.2 (2026-07-29)
+
+* Fix: Warning: Undefined array key "deleteConfirm" bei contao:migrate -> Lesezugriffe auf $GLOBALS['TL_LANG'] in den DCA-Dateien mit `?? null` bzw. `?? array()` abgesichert, da der DcaLoader die Sprachdateien noch nicht geladen hat
+
 ## Version 1.1.1 (2023-12-01)
 
 * Fix: Warning: Undefined array key "chronik_seite" in Helper:17 -> Ausgabe einer Fehlermeldung, wenn Chronikseite nicht eingestellt ist
