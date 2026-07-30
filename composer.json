@@ -1,7 +1,14 @@
 {
     "name": "schachbulle/contao-chronik-bundle",
     "type": "contao-bundle",
-    "description": "Schachchronik für Contao 4",
+    "description": "Verwaltet eine Chronik und stellt sie als Zeitleiste im Frontend dar.",
+    "keywords": [
+        "contao",
+        "chronik",
+        "zeitleiste",
+        "geschichte"
+    ],
+    "homepage": "https://github.com/Samson1964/contao-chronik-bundle",
     "license": "LGPL-3.0-or-later",
     "authors": [
         {
